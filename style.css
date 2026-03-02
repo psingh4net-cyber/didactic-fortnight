@@ -1,0 +1,123 @@
+body{
+    font-family: 'Arial', sans-serif;
+    background: linear-gradient(135deg,#667eea,#764ba2);
+    margin:0;
+    padding:20px;
+    color:#333;
+}    
+
+
+.container{
+    background:white;
+    max-width:800px;
+    margin:auto;
+    padding:30px 40px;
+    border-radius:12px;
+    box-shadow:0 10px 30px rgba(0,0,0,0.2);
+    border: 3px solid #667eea;
+}
+
+
+h1,h2{
+    text-align:center;
+    color:#4b0082;
+}
+
+
+input, select{
+    padding:8px;
+    width:250px;
+    border:1px solid #ccc;
+    border-radius:4px;
+    transition: border-color 0.3s;
+}
+
+input:focus, select:focus{
+    outline:none;
+    border-color:#667eea;
+    box-shadow:0 0 5px rgba(102,126,234,0.5);
+}
+
+
+button{
+    padding:10px 20px;
+    margin-top:15px;
+    background:#4b0082;
+    color:white;
+    border:none;
+    border-radius:6px;
+    cursor:pointer;
+    transition: background 0.3s;
+}
+
+button:hover{
+    background:#301a57;
+}
+
+button:active{
+    background:#1a0f38;
+}
+
+
+.section{
+    margin-top:25px;
+    padding:15px;
+    background:#f0f3ff;
+    border-radius:8px;
+}
+
+/* question headings */
+h3{
+    color:#667eea;
+    margin-bottom:10px;
+}
+
+/* multiple choice box */
+.mc-question{
+    background:#fffcef;
+    border-left:4px solid #ffd700;
+    padding:10px;
+    border-radius:4px;
+}
+
+/* statement questions */
+.statement-question{
+    background:#ffffff;
+    padding:8px;
+    border-radius:4px;
+    border-left:4px solid #ff69b4; /* pink accent */
+}
+
+/* add colored numbering and labels */
+#questionBox .statement-question:nth-of-type(4n+1) label,
+#questionBox .mc-question:nth-of-type(4n+1) label {
+    color: #d32f2f; /* red */
+}
+#questionBox .statement-question:nth-of-type(4n+2) label,
+#questionBox .mc-question:nth-of-type(4n+2) label {
+    color: #388e3c; /* green */
+}
+#questionBox .statement-question:nth-of-type(4n+3) label,
+#questionBox .mc-question:nth-of-type(4n+3) label {
+    color: #ffa000; /* amber/yellow */
+}
+#questionBox .statement-question:nth-of-type(4n+4) label,
+#questionBox .mc-question:nth-of-type(4n+4) label {
+    color: #c2185b; /* pink */
+}
+
+/* alternate row backgrounds lightly */
+#questionBox .statement-question:nth-child(2n),
+#questionBox .mc-question:nth-child(2n) {
+    background-color: #f9f9f9;
+}
+
+/* result page styles */
+#resultBox{
+    text-align:center;
+}
+
+#resultBox h3{
+    margin-top:20px;
+    color:#4b0082;
+}
