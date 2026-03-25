@@ -1,0 +1,785 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Class 3 Fun Worksheet</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+:root {
+  --sky: #8fd3ff;
+  --sun: #ffd76a;
+  --peach: #ffb687;
+  --berry: #ff6b6b;
+  --leaf: #42b883;
+  --ink: #25415d;
+  --card: rgba(255, 255, 255, 0.9);
+  --shadow: 0 18px 45px rgba(37, 65, 93, 0.18);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: "Trebuchet MS", "Comic Sans MS", sans-serif;
+  color: var(--ink);
+  background:
+    radial-gradient(circle at top left, rgba(255, 255, 255, 0.9), transparent 35%),
+    radial-gradient(circle at top right, rgba(255, 255, 255, 0.7), transparent 25%),
+    linear-gradient(160deg, #85d8ff 0%, #fef6c9 45%, #ffd7ba 100%);
+  overflow-x: hidden;
+}
+
+body::before,
+body::after {
+  content: "";
+  position: fixed;
+  width: 220px;
+  height: 220px;
+  border-radius: 50%;
+  z-index: 0;
+  filter: blur(2px);
+}
+
+body::before {
+  top: -70px;
+  right: -50px;
+  background: rgba(255, 215, 106, 0.45);
+}
+
+body::after {
+  bottom: -90px;
+  left: -70px;
+  background: rgba(255, 182, 135, 0.5);
+}
+
+.screen {
+  position: relative;
+  z-index: 1;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+
+.card,
+.welcome-box {
+  width: min(960px, 100%);
+  background: var(--card);
+  border: 4px solid rgba(255, 255, 255, 0.65);
+  box-shadow: var(--shadow);
+  border-radius: 28px;
+  backdrop-filter: blur(10px);
+}
+
+.welcome-box {
+  max-width: 580px;
+  padding: 32px 28px;
+  text-align: center;
+  animation: floatIn 0.8s ease;
+}
+
+.welcome-box h1,
+.topbar h1 {
+  margin: 0 0 10px;
+  font-size: clamp(2rem, 4vw, 3.2rem);
+}
+
+.welcome-box p,
+.subtitle,
+.section-title p,
+.result-card p {
+  line-height: 1.5;
+}
+
+.name-row {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin: 24px 0 8px;
+}
+
+input[type="text"],
+input[type="number"] {
+  border: 2px solid #b8dbef;
+  border-radius: 14px;
+  font-size: 1.05rem;
+  padding: 12px 14px;
+  transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+input[type="text"] {
+  width: min(280px, 100%);
+}
+
+input[type="number"] {
+  width: 88px;
+  text-align: center;
+  font-weight: 700;
+}
+
+input:focus {
+  outline: none;
+  border-color: #5aa9e6;
+  box-shadow: 0 0 0 4px rgba(90, 169, 230, 0.2);
+  transform: translateY(-1px);
+}
+
+button {
+  border: 0;
+  border-radius: 16px;
+  padding: 13px 20px;
+  font-size: 1rem;
+  font-weight: 700;
+  color: white;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease;
+}
+
+button:hover {
+  transform: translateY(-2px);
+}
+
+button:active {
+  transform: translateY(0);
+}
+
+.primary-btn {
+  background: linear-gradient(135deg, #ff7f50, #ff5d73);
+  box-shadow: 0 12px 24px rgba(255, 93, 115, 0.28);
+}
+
+.secondary-btn {
+  background: linear-gradient(135deg, #3dbb8a, #3a86ff);
+  box-shadow: 0 12px 24px rgba(58, 134, 255, 0.22);
+}
+
+.ghost-btn {
+  background: linear-gradient(135deg, #7c8cff, #5ac8fa);
+  box-shadow: 0 12px 24px rgba(90, 200, 250, 0.2);
+}
+
+.hidden {
+  display: none;
+}
+
+.worksheet-wrap {
+  padding: 22px;
+}
+
+.topbar {
+  display: grid;
+  grid-template-columns: 1.3fr 1fr;
+  gap: 18px;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.greeting {
+  padding: 24px;
+  border-radius: 24px;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.72), rgba(255, 251, 226, 0.92));
+}
+
+.status-panel {
+  display: grid;
+  gap: 12px;
+}
+
+.sound-toggle-wrap {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.sound-toggle {
+  background: rgba(255, 255, 255, 0.9);
+  color: var(--ink);
+  border: 2px solid #b8dbef;
+  border-radius: 999px;
+  padding: 8px 14px;
+  font-size: 0.92rem;
+  box-shadow: none;
+}
+
+.badge-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+}
+
+.badge {
+  background: white;
+  border-radius: 18px;
+  padding: 14px 10px;
+  text-align: center;
+  box-shadow: 0 10px 24px rgba(37, 65, 93, 0.08);
+}
+
+.badge strong {
+  display: block;
+  font-size: 1.3rem;
+  margin-top: 6px;
+}
+
+.progress-shell {
+  background: rgba(255, 255, 255, 0.7);
+  border-radius: 999px;
+  overflow: hidden;
+  height: 20px;
+}
+
+.progress-bar {
+  width: 0;
+  height: 100%;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #42b883, #ffd166, #ff7f50);
+  transition: width 0.45s ease;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 18px;
+}
+
+.section {
+  background: rgba(255, 255, 255, 0.85);
+  border-radius: 24px;
+  padding: 20px;
+  box-shadow: 0 10px 24px rgba(37, 65, 93, 0.08);
+}
+
+.section-title {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.section-title h2 {
+  margin: 0;
+  font-size: 1.45rem;
+}
+
+.pill {
+  background: #fff3d1;
+  border-radius: 999px;
+  padding: 8px 12px;
+  font-weight: 700;
+}
+
+.question {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 12px 14px;
+  margin: 10px 0;
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.75);
+}
+
+.question label {
+  flex: 1;
+  text-align: left;
+  font-size: 1.05rem;
+  font-weight: 700;
+}
+
+.question.correct {
+  background: rgba(66, 184, 131, 0.18);
+}
+
+.question.wrong {
+  background: rgba(255, 107, 107, 0.18);
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  justify-content: center;
+  margin-top: 22px;
+}
+
+.result-card {
+  margin-top: 24px;
+  padding: 24px;
+  border-radius: 24px;
+  background: linear-gradient(135deg, rgba(255, 245, 204, 0.95), rgba(255, 255, 255, 0.95));
+  text-align: center;
+}
+
+.result-card h2,
+.result-card h3,
+.result-card p {
+  margin: 10px 0;
+}
+
+.starburst {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  font-size: 1.8rem;
+  min-height: 42px;
+}
+
+.starburst span {
+  opacity: 0;
+  transform: translateY(10px) scale(0.8);
+  animation: popStar 0.6s ease forwards;
+}
+
+.starburst span:nth-child(2) { animation-delay: 0.1s; }
+.starburst span:nth-child(3) { animation-delay: 0.2s; }
+.starburst span:nth-child(4) { animation-delay: 0.3s; }
+.starburst span:nth-child(5) { animation-delay: 0.4s; }
+
+.helper-text {
+  min-height: 24px;
+  color: #b94156;
+  font-weight: 700;
+}
+
+.footer-note {
+  margin-top: 14px;
+  font-size: 0.95rem;
+}
+
+@keyframes floatIn {
+  from {
+    opacity: 0;
+    transform: translateY(24px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes popStar {
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@media (max-width: 780px) {
+  .topbar,
+  .grid,
+  .badge-row {
+    grid-template-columns: 1fr;
+  }
+
+  .worksheet-wrap {
+    padding: 16px;
+  }
+
+  .question {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .question input[type="number"] {
+    width: 100%;
+  }
+}
+</style>
+</head>
+<body>
+<div id="welcomeScreen" class="screen">
+  <div class="welcome-box">
+    <h1>Class 3 Fun Worksheet</h1>
+    <p>Let us learn with happy colors, simple questions, and cheerful sounds.</p>
+    <p>First, tell me your name. I will greet you before the worksheet starts.</p>
+    <div class="name-row">
+      <input type="text" id="studentName" placeholder="Type your name here">
+      <button class="primary-btn" id="startButton">Start Worksheet</button>
+    </div>
+    <div id="nameHelp" class="helper-text"></div>
+  </div>
+</div>
+
+<main id="worksheetScreen" class="screen hidden">
+  <div class="card worksheet-wrap">
+    <div class="topbar">
+      <div class="greeting">
+        <h1 id="greetingTitle">Hello, Student.</h1>
+        <p class="subtitle">Solve the questions, check your marks, and enjoy your reward at the end.</p>
+      </div>
+      <div class="status-panel">
+        <div class="sound-toggle-wrap">
+          <button class="sound-toggle" id="soundToggle" aria-pressed="true">Sound: On</button>
+        </div>
+        <div class="badge-row">
+          <div class="badge">Questions<strong id="totalQuestions">10</strong></div>
+          <div class="badge">Time<strong id="timer">0s</strong></div>
+          <div class="badge">Marks<strong id="liveScore">0</strong></div>
+        </div>
+        <div>
+          <div style="font-weight:700; margin-bottom:8px;">Progress</div>
+          <div class="progress-shell"><div id="progressBar" class="progress-bar"></div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="grid">
+      <section class="section">
+        <div class="section-title">
+          <div>
+            <h2>Division Practice</h2>
+            <p>Easy questions for class 3 learners.</p>
+          </div>
+          <div class="pill">5 Questions</div>
+        </div>
+
+        <div class="question" data-answer="3">
+          <label for="q1">12 ÷ 4 =</label>
+          <input id="q1" type="number" min="0">
+        </div>
+        <div class="question" data-answer="4">
+          <label for="q2">16 ÷ 4 =</label>
+          <input id="q2" type="number" min="0">
+        </div>
+        <div class="question" data-answer="2">
+          <label for="q3">18 ÷ 9 =</label>
+          <input id="q3" type="number" min="0">
+        </div>
+        <div class="question" data-answer="5">
+          <label for="q4">25 ÷ 5 =</label>
+          <input id="q4" type="number" min="0">
+        </div>
+        <div class="question" data-answer="6">
+          <label for="q5">30 ÷ 5 =</label>
+          <input id="q5" type="number" min="0">
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="section-title">
+          <div>
+            <h2>Chapter: Time</h2>
+            <p>Read the clock ideas and answer in numbers.</p>
+          </div>
+          <div class="pill">5 Questions</div>
+        </div>
+
+        <div class="question" data-answer="60">
+          <label for="q6">How many minutes are there in 1 hour?</label>
+          <input id="q6" type="number" min="0">
+        </div>
+        <div class="question" data-answer="24">
+          <label for="q7">How many hours are there in 1 day?</label>
+          <input id="q7" type="number" min="0">
+        </div>
+        <div class="question" data-answer="7">
+          <label for="q8">How many days are there in 1 week?</label>
+          <input id="q8" type="number" min="0">
+        </div>
+        <div class="question" data-answer="12">
+          <label for="q9">What hour comes after 11 o'clock?</label>
+          <input id="q9" type="number" min="0">
+        </div>
+        <div class="question" data-answer="30">
+          <label for="q10">How many minutes are there in half an hour?</label>
+          <input id="q10" type="number" min="0">
+        </div>
+      </section>
+    </div>
+
+    <div class="actions">
+      <button class="primary-btn" id="checkButton">Check My Work</button>
+      <button class="secondary-btn" id="hintButton">Show Quick Hint</button>
+      <button class="ghost-btn" id="resetButton">Start Again</button>
+    </div>
+
+    <section id="resultCard" class="result-card hidden">
+      <div class="starburst" id="starburst"></div>
+      <h2 id="scoreText"></h2>
+      <h3 id="messageText"></h3>
+      <p id="detailText"></p>
+      <p class="footer-note">Keep learning. Every question you try makes you stronger.</p>
+    </section>
+  </div>
+</main>
+
+<script>
+const welcomeScreen = document.getElementById("welcomeScreen");
+const worksheetScreen = document.getElementById("worksheetScreen");
+const studentNameInput = document.getElementById("studentName");
+const nameHelp = document.getElementById("nameHelp");
+const greetingTitle = document.getElementById("greetingTitle");
+const timerElement = document.getElementById("timer");
+const liveScoreElement = document.getElementById("liveScore");
+const progressBar = document.getElementById("progressBar");
+const totalQuestionsElement = document.getElementById("totalQuestions");
+const resultCard = document.getElementById("resultCard");
+const scoreText = document.getElementById("scoreText");
+const messageText = document.getElementById("messageText");
+const detailText = document.getElementById("detailText");
+const starburst = document.getElementById("starburst");
+const soundToggle = document.getElementById("soundToggle");
+const questionBlocks = Array.from(document.querySelectorAll(".question"));
+const inputs = Array.from(document.querySelectorAll('.question input'));
+
+let studentName = "Student";
+let seconds = 0;
+let timerId = null;
+let soundEnabled = true;
+
+totalQuestionsElement.textContent = String(questionBlocks.length);
+
+function startTimer() {
+  stopTimer();
+  timerId = window.setInterval(() => {
+    seconds += 1;
+    timerElement.textContent = seconds + "s";
+  }, 1000);
+}
+
+function stopTimer() {
+  if (timerId !== null) {
+    window.clearInterval(timerId);
+    timerId = null;
+  }
+}
+
+function getScore() {
+  let score = 0;
+  questionBlocks.forEach((block) => {
+    const input = block.querySelector("input");
+    const answer = block.dataset.answer;
+    if (input.value.trim() !== "" && input.value.trim() === answer) {
+      score += 1;
+    }
+  });
+  return score;
+}
+
+function updateLiveProgress() {
+  const answered = inputs.filter((input) => input.value.trim() !== "").length;
+  const score = getScore();
+  const progress = (answered / inputs.length) * 100;
+  liveScoreElement.textContent = String(score);
+  progressBar.style.width = progress + "%";
+}
+
+function playTone(frequency, duration, delay, type) {
+  if (!soundEnabled) {
+    return;
+  }
+
+  const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+  if (!AudioContextClass) {
+    return;
+  }
+
+  if (!window.soundContext) {
+    window.soundContext = new AudioContextClass();
+  }
+
+  const context = window.soundContext;
+  const oscillator = context.createOscillator();
+  const gain = context.createGain();
+  const startAt = context.currentTime + delay;
+
+  oscillator.type = type;
+  oscillator.frequency.setValueAtTime(frequency, startAt);
+  gain.gain.setValueAtTime(0.001, startAt);
+  gain.gain.exponentialRampToValueAtTime(0.18, startAt + 0.02);
+  gain.gain.exponentialRampToValueAtTime(0.001, startAt + duration);
+
+  oscillator.connect(gain);
+  gain.connect(context.destination);
+  oscillator.start(startAt);
+  oscillator.stop(startAt + duration + 0.02);
+}
+
+function playClickSound() {
+  playTone(740, 0.08, 0, "square");
+}
+
+function playCorrectSound() {
+  playTone(659.25, 0.1, 0, "triangle");
+}
+
+function playWrongSound() {
+  playTone(220, 0.12, 0, "sawtooth");
+}
+
+function playJoySound() {
+  [523.25, 659.25, 783.99, 1046.5].forEach((note, index) => {
+    playTone(note, 0.22, index * 0.12, "triangle");
+  });
+}
+
+function playTryAgainSound() {
+  [392, 349.23].forEach((note, index) => {
+    playTone(note, 0.18, index * 0.18, "sine");
+  });
+}
+
+function celebrate(starCount) {
+  starburst.innerHTML = "";
+  for (let index = 0; index < starCount; index += 1) {
+    const star = document.createElement("span");
+    star.textContent = "⭐";
+    starburst.appendChild(star);
+  }
+}
+
+function startWorksheet() {
+  playClickSound();
+  const typedName = studentNameInput.value.trim();
+  if (!typedName) {
+    nameHelp.textContent = "Please type your name first.";
+    studentNameInput.focus();
+    return;
+  }
+
+  studentName = typedName;
+  greetingTitle.textContent = "Hello, " + studentName + "! Let us begin.";
+  nameHelp.textContent = "";
+  welcomeScreen.classList.add("hidden");
+  worksheetScreen.classList.remove("hidden");
+  playJoySound();
+  startTimer();
+  inputs[0].focus();
+}
+
+function getMessage(percent) {
+  if (percent === 100) {
+    return {
+      title: "Brilliant work, " + studentName + "!",
+      text: "You got everything correct. You are a worksheet star today!",
+      stars: 5,
+      sound: "joy"
+    };
+  }
+
+  if (percent >= 80) {
+    return {
+      title: "Very good, " + studentName + "!",
+      text: "You did a great job. Just a tiny step more for full marks!",
+      stars: 4,
+      sound: "joy"
+    };
+  }
+
+  if (percent >= 50) {
+    return {
+      title: "Nice try, " + studentName + "!",
+      text: "You are learning well. Check a few answers and try again.",
+      stars: 3,
+      sound: "try"
+    };
+  }
+
+  return {
+    title: "Keep going, " + studentName + "!",
+    text: "You are brave for trying. Read the hint and solve again.",
+    stars: 2,
+    sound: "try"
+  };
+}
+
+function checkAnswers() {
+  playClickSound();
+  let score = 0;
+
+  questionBlocks.forEach((block) => {
+    const input = block.querySelector("input");
+    const answer = block.dataset.answer;
+    block.classList.remove("correct", "wrong");
+
+    if (input.value.trim() === answer) {
+      block.classList.add("correct");
+      score += 1;
+      playCorrectSound();
+    } else {
+      block.classList.add("wrong");
+      playWrongSound();
+    }
+  });
+
+  stopTimer();
+
+  const total = questionBlocks.length;
+  const percent = Math.round((score / total) * 100);
+  const message = getMessage(percent);
+
+  liveScoreElement.textContent = String(score);
+  progressBar.style.width = "100%";
+  scoreText.textContent = "Marks: " + score + " / " + total + " (" + percent + "%)";
+  messageText.textContent = message.title;
+  detailText.textContent = message.text + " You finished in " + seconds + " seconds.";
+  celebrate(message.stars);
+  resultCard.classList.remove("hidden");
+  resultCard.scrollIntoView({ behavior: "smooth", block: "start" });
+
+  if (message.sound === "joy") {
+    playJoySound();
+  } else {
+    playTryAgainSound();
+  }
+}
+
+function showHint() {
+  playClickSound();
+  detailText.textContent = "Hint: For division, think of equal groups. For time, remember 60 minutes in 1 hour, 24 hours in 1 day, and 7 days in 1 week.";
+  resultCard.classList.remove("hidden");
+  resultCard.scrollIntoView({ behavior: "smooth", block: "start" });
+}
+
+function resetWorksheet() {
+  playClickSound();
+  seconds = 0;
+  timerElement.textContent = "0s";
+  liveScoreElement.textContent = "0";
+  progressBar.style.width = "0%";
+  resultCard.classList.add("hidden");
+  starburst.innerHTML = "";
+
+  questionBlocks.forEach((block) => {
+    block.classList.remove("correct", "wrong");
+  });
+
+  inputs.forEach((input) => {
+    input.value = "";
+  });
+
+  startTimer();
+  inputs[0].focus();
+}
+
+function toggleSound() {
+  soundEnabled = !soundEnabled;
+  soundToggle.textContent = soundEnabled ? "Sound: On" : "Sound: Off";
+  soundToggle.setAttribute("aria-pressed", soundEnabled ? "true" : "false");
+  if (soundEnabled) {
+    playClickSound();
+  }
+}
+
+document.getElementById("startButton").addEventListener("click", startWorksheet);
+document.getElementById("checkButton").addEventListener("click", checkAnswers);
+document.getElementById("hintButton").addEventListener("click", showHint);
+document.getElementById("resetButton").addEventListener("click", resetWorksheet);
+soundToggle.addEventListener("click", toggleSound);
+studentNameInput.addEventListener("keydown", (event) => {
+  if (event.key === "Enter") {
+    startWorksheet();
+  }
+});
+inputs.forEach((input) => {
+  input.addEventListener("input", updateLiveProgress);
+});
+</script>
+</body>
+</html>
